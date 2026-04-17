@@ -8,7 +8,7 @@
 
 | Service | Endpoint |
 |--------|----------|
-| Frontend | Hosted on AWS S3 + CloudFront |
+| Frontend | `https://d1a66ffhk9ij6c.cloudfront.net` |
 | API Gateway | `https://lcksw1qszg.execute-api.ap-southeast-1.amazonaws.com` |
 
 ---
