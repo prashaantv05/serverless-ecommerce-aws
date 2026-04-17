@@ -338,20 +338,6 @@ Frontend communicates exclusively via REST API. UI is completely decoupled from 
 
 ---
 
-## 🚀 Roadmap
-
-- [ ] JWT authentication + AWS Cognito
-- [ ] Order persistence in DynamoDB
-- [ ] CloudWatch dashboards & alerts
-- [ ] CI/CD pipeline via GitHub Actions
-- [ ] OpenAPI (Swagger) documentation
-- [ ] API versioning (`/v1/`)
-- [ ] SQS-based event-driven order processing
-- [ ] Product search & filtering
-- [ ] User profile management
-
----
-
 ## 👨‍💻 Author
 
 **Prashaant V**
@@ -365,5 +351,3 @@ Cloud & Backend Developer
 KART demonstrates a **production-aligned serverless architecture** — combining microservices design, cloud-native infrastructure-as-code, REST API design, and a responsive frontend. Built to reflect real-world engineering practices used at product companies.
 
 ---
-
-*Built with ☕ and AWS Lambda cold starts.*
