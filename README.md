@@ -98,42 +98,46 @@ Lambda            Lambda             Lambda
 ## 📁 Project Structure
 
 ```
-kart/
+terraform-ecommerce/
 │
-├── product-services/
-│   ├── index.js               # Lambda handler
-│   ├── productRoutes.js       # CRUD routes
-│   ├── dynamo.js              # DynamoDB client
-│   ├── package.json
-│   └── __tests__/
-│       └── product.test.js
+├── README.md                 # Project documentation
+├── .gitignore                # Ignored files list
+├── package.json              # Node.js dependencies
+├── package-lock.json         # Dependency lock file
+├── e2e-test.js               # End-to-end testing script
 │
-├── cart-services/
-│   ├── index.js               # Lambda handler
-│   ├── cartRoutes.js          # Cart routes + product fetch
-│   ├── package.json
-│   └── __tests__/
-│       └── cart.test.js
+├── product-services/         # Product microservice (Node.js)
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   └── app.js
 │
-├── order-services/
-│   ├── index.js               # Lambda handler
-│   ├── orderRoutes.js         # Checkout + order routes
-│   ├── orderDB.js             # In-memory order store
-│   ├── package.json
-│   └── __tests__/
-│       └── order.test.js
+├── cart-services/            # Cart microservice (Node.js)
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   └── app.js
 │
-├── index.html                 # Frontend entry point
-├── app.js                     # Frontend JS (API calls)
-├── style.css                  # Frontend styles
+├── order-services/           # Order microservice (Node.js)
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   └── app.js
 │
-├── main.tf                    # Lambda, API Gateway, DynamoDB, IAM
-├── frontend.tf                # S3 + CloudFront
-├── variables.tf
-├── outputs.tf
+├── frontend.tf               # Terraform config for frontend (S3 / hosting)
+├── main.tf                   # Main Terraform infrastructure config
+├── variables.tf              # Terraform variables
+├── outputs.tf                # Terraform outputs
 │
-├── e2e-test.js                # End-to-end test runner
-└── README.md
+├── index.html                # Frontend UI
+├── style.css                 # Styling for frontend
+│
+├── terraform.tfstate         # Terraform state file (should be ignored in prod)
+├── terraform.tfstate.backup  # Backup state file
+├── .terraform/               # Terraform internal files
+├── .terraform.lock.hcl       # Provider lock file
+│
+└── node_modules/             # Installed dependencies (ignored in Git)
 ```
 
 ---
