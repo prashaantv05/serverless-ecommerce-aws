@@ -107,22 +107,20 @@ terraform-ecommerce/
 ├── e2e-test.js               # End-to-end testing script
 │
 ├── product-services/         # Product microservice (Node.js)
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   └── app.js
+│   ├── index.js
+│   ├── dynamo.js
+│   ├── productRoutes.js
+│   └── node_modules/
 │
 ├── cart-services/            # Cart microservice (Node.js)
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   └── app.js
+│   ├── index.js
+│   ├── cartRoutes.js
+│   ├── node_modules/
 │
 ├── order-services/           # Order microservice (Node.js)
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   └── app.js
+│   ├── index.js
+│   ├── orderRoutes.js
+│   ├── node_modules/
 │
 ├── frontend.tf               # Terraform config for frontend (S3 / hosting)
 ├── main.tf                   # Main Terraform infrastructure config
