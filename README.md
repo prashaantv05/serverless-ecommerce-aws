@@ -8,8 +8,8 @@
 
 | Service | Endpoint |
 |--------|----------|
-| Frontend | `https://d1a66ffhk9ij6c.cloudfront.net` |
-| API Gateway | `https://lcksw1qszg.execute-api.ap-southeast-1.amazonaws.com` |
+| Frontend | `https://dx4o02gcthxe4.cloudfront.net` |
+| API Gateway | `https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com` |
 
 ---
 
