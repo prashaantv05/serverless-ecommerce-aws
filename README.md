@@ -1,221 +1,155 @@
-# Serverless E-Commerce Platform on AWS
+# 🛒 Serverless E-Commerce Platform on AWS
 
-A serverless e-commerce application built using AWS services, Terraform Infrastructure as Code, Node.js microservices, and a modular frontend architecture.
+A cloud-native e-commerce application built using AWS serverless services, Terraform Infrastructure as Code (IaC), Node.js microservices, and a modular frontend architecture.
 
-## Features
+This project demonstrates modern cloud engineering practices including serverless architecture, Infrastructure as Code, microservices, CDN-based frontend delivery, and automated AWS resource provisioning.
 
-* Product Management
-* Shopping Cart
-* Order Management
+---
+
+## 🌐 Live Deployment
+
+| Service     | URL                                                         |
+| ----------- | ----------------------------------------------------------- |
+| Frontend    | https://dx4o02gcthxe4.cloudfront.net                        |
+| API Gateway | https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com |
+
+The frontend is hosted on Amazon S3 and delivered globally through Amazon CloudFront. Backend APIs are exposed through Amazon API Gateway and powered by AWS Lambda microservices.
+
+---
+
+## 🚀 Features
+
+### Customer Features
+
+* Product Catalog Management
+* Product Search & Filtering
 * Product Comparison
-* Pagination
-* Responsive UI
-* CloudFront + S3 Frontend Hosting
-* API Gateway
-* AWS Lambda
-* DynamoDB
+* Shopping Cart Management
+* Order Placement & Tracking
+* Order History
+* Responsive User Interface
+
+### Admin Features
+
+* Add Products
+* Update Products
+* Delete Products
+* Inventory Management
+* Category Management
+
+### Cloud Features
+
+* Serverless Architecture
 * Terraform Infrastructure as Code
+* CloudFront CDN Distribution
+* S3 Static Website Hosting
+* API Gateway REST APIs
+* DynamoDB NoSQL Database
+* AWS Lambda Microservices
 
-| Service | Endpoint |
-|--------|----------|
-| Frontend | `https://dx4o02gcthxe4.cloudfront.net` |
-| API Gateway | `https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com` |
-## Project Structure
+---
 
+## 🏗️ Architecture
+
+```text
+User
+ │
+ ▼
+CloudFront
+ │
+ ▼
+Amazon S3 (Frontend)
+ │
+ ▼
+API Gateway
+ │
+ ├── Product Service (Lambda)
+ ├── Cart Service (Lambda)
+ └── Order Service (Lambda)
+        │
+        ▼
+     DynamoDB
+```
+
+---
+
+## ☁️ AWS Services Used
+
+| Service            | Purpose                                    |
+| ------------------ | ------------------------------------------ |
+| AWS Lambda         | Serverless backend microservices           |
+| Amazon API Gateway | REST API management                        |
+| Amazon DynamoDB    | NoSQL data storage                         |
+| Amazon S3          | Static frontend hosting                    |
+| Amazon CloudFront  | Global content delivery                    |
+| AWS IAM            | Security and access control                |
+| Terraform          | Infrastructure provisioning and management |
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Cloud & Infrastructure
+
+* AWS Lambda
+* Amazon API Gateway
+* Amazon DynamoDB
+* Amazon S3
+* Amazon CloudFront
+* AWS IAM
+* Terraform
+
+### Testing
+
+* Jest
+* Supertest
+
+---
+
+## 📂 Project Structure
+
+```text
 serverless-ecommerce-aws/
 
-* frontend/
-
-  * css/
-  * js/
-  * index.html
-
-* infrastructure/
-
-  * main.tf
-  * lambda.tf
-  * dynamodb.tf
-  * api-gateway.tf
-  * iam.tf
-  * permissions.tf
-  * frontend.tf
-  * variables.tf
-  * outputs.tf
-
-* services/
-
-  * product/
-  * cart/
-  * order/
-
-### 📦 Orders
-- Full checkout flow — cart → order with stock deduction
-- Automatic cart clear after successful order
-- Order history per user
-- Order status lifecycle: `placed → confirmed → shipped → delivered → cancelled`
-
-### ⚙️ Admin
-- Add, update, delete products
-- Inventory (stock) management
-- Category-based product organization
-
----
-
-## 🔧 Microservices
-
-| Service | Lambda Function | DynamoDB Table | Responsibility |
-|---------|----------------|----------------|----------------|
-| Product Service | `product-service` | `Prash_Products` | CRUD operations, stock management |
-| Cart Service | `cart-service` | `Prash_Cart` | Cart operations, product validation |
-| Order Service | `order-service` | `Prash_Orders` | Checkout, stock deduction, order history |
-
----
-
-## 🧰 Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | HTML, CSS (custom), Vanilla JS |
-| Hosting | AWS S3 + CloudFront |
-| API Layer | AWS API Gateway (HTTP API) |
-| Backend | Node.js + Express (serverless via `serverless-http`) |
-| Runtime | AWS Lambda (Node.js 18.x) |
-| Database | AWS DynamoDB (NoSQL, PAY_PER_REQUEST) |
-| IaC | Terraform |
-| Testing | Jest + Supertest (unit), custom E2E script |
-
----
-
-## 📁 Project Structure
-
-```
-terraform-ecommerce/
+├── frontend/
+│   ├── css/
+│   ├── js/
+│   └── index.html
 │
-├── README.md                 # Project documentation
-├── .gitignore                # Ignored files list
-├── package.json              # Node.js dependencies
-├── package-lock.json         # Dependency lock file
-├── e2e-test.js               # End-to-end testing script
+├── infrastructure/
+│   ├── main.tf
+│   ├── lambda.tf
+│   ├── dynamodb.tf
+│   ├── api-gateway.tf
+│   ├── iam.tf
+│   ├── permissions.tf
+│   ├── frontend.tf
+│   ├── variables.tf
+│   └── outputs.tf
 │
-├── product-services/         # Product microservice (Node.js)
-│   ├── index.js
-│   ├── dynamo.js
-│   ├── productRoutes.js
-│   └── node_modules/
+├── services/
+│   ├── product/
+│   ├── cart/
+│   └── order/
 │
-├── cart-services/            # Cart microservice (Node.js)
-│   ├── index.js
-│   ├── cartRoutes.js
-│   ├── node_modules/
-│
-├── order-services/           # Order microservice (Node.js)
-│   ├── index.js
-│   ├── orderRoutes.js
-│   ├── node_modules/
-│
-├── frontend.tf               # Terraform config for frontend (S3 / hosting)
-├── main.tf                   # Main Terraform infrastructure config
-├── variables.tf              # Terraform variables
-├── outputs.tf                # Terraform outputs
-│
-├── index.html                # Frontend UI
-├── style.css                 # Styling for frontend
-│
-├── terraform.tfstate         # Terraform state file (should be ignored in prod)
-├── terraform.tfstate.backup  # Backup state file
-├── .terraform/               # Terraform internal files
-├── .terraform.lock.hcl       # Provider lock file
-│
-└── node_modules/             # Installed dependencies (ignored in Git)
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 📡 API Reference
-
-### Product Service
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/products` | Get all products |
-| `GET` | `/products/:id` | Get product by ID |
-| `POST` | `/products` | Create new product |
-| `PUT` | `/products/:id` | Update product (any field) |
-| `DELETE` | `/products/:id` | Delete product |
-
-**POST `/products` — Request Body:**
-```json
-{
-  "name": "Running Shoes",
-  "price": 2000,
-  "stock": 30,
-  "category": "sports",
-  "description": "Lightweight running shoes"
-}
-```
-
----
-
-### Cart Service
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/cart/add` | Add item (fetches product details automatically) |
-| `GET` | `/cart/:userId` | Get cart for user |
-| `PUT` | `/cart/:userId/update` | Update item quantity |
-| `DELETE` | `/cart/:userId/remove/:productId` | Remove specific item |
-| `DELETE` | `/cart/:userId/clear` | Clear entire cart |
-
-**POST `/cart/add` — Request Body:**
-```json
-{
-  "userId": "u1",
-  "productId": "p1234567890",
-  "quantity": 2
-}
-```
-
-> Cart service automatically calls product-service to fetch name and price — you only need to send `userId`, `productId`, and `quantity`.
-
----
-
-### Order Service
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/orders/checkout/:userId` | Place order from cart |
-| `GET` | `/orders/user/:userId` | Get all orders for user |
-| `GET` | `/orders/:id` | Get order by ID |
-| `PUT` | `/orders/:id/status` | Update order status |
-| `DELETE` | `/orders/:id/cancel` | Cancel an order |
-
-**POST `/orders/checkout/:userId` — Request Body:**
-```json
-{
-  "shippingAddress": "12, Anna Nagar, Chennai",
-  "paymentMethod": "COD"
-}
-```
-
-**Checkout flow (automated):**
-1. Fetches all items from user's cart
-2. Validates stock for each item
-3. Deducts stock from `Prash_Products`
-4. Creates order record
-5. Clears the cart
-
----
-
-## 🚀 Deployment
-
-### Prerequisites
-
-- Node.js 18+
-- Terraform CLI
-- AWS CLI configured with appropriate credentials
-
-### Steps
-## Deployment
+## ⚙️ Deployment
 
 ```bash
 terraform init
@@ -223,15 +157,62 @@ terraform plan
 terraform apply
 ```
 
-## Tech Stack
+Terraform provisions:
 
-* HTML
-* CSS
-* JavaScript
-* Node.js
-* AWS Lambda
+* AWS Lambda Functions
 * API Gateway
-* DynamoDB
-* S3
-* CloudFront
-* Terraform
+* DynamoDB Tables
+* S3 Bucket
+* CloudFront Distribution
+* IAM Roles and Policies
+
+---
+
+## 🧪 Testing
+
+Run service-level unit tests using Jest:
+
+```bash
+cd services/product
+npm test
+
+cd ../cart
+npm test
+
+cd ../order
+npm test
+```
+
+---
+
+## 📚 Learning Outcomes
+
+This project demonstrates practical experience with:
+
+* Serverless Architecture
+* AWS Cloud Services
+* Infrastructure as Code (Terraform)
+* Microservices Design
+* REST API Development
+* DynamoDB Data Modeling
+* Frontend Modularization
+* Cloud Deployment & Automation
+
+---
+
+## 🔮 Future Enhancements
+
+* AWS WAF Integration
+* Amazon SQS for Order Processing
+* CloudWatch Monitoring & Observability
+* GitHub Actions CI/CD Pipeline
+* Amazon Cognito Authentication
+* Gamification & Reward System
+
+---
+
+## 👨‍💻 Author
+
+**Prashaant V**
+
+Built as a cloud-native serverless e-commerce platform to demonstrate AWS, Terraform, Serverless Architecture, and Microservices best practices.
