@@ -1,7 +1,21 @@
+# Node
 node_modules/
+
+# Environment Variables
 .env
+.env.*
+
+# Logs
 *.log
-*.zip
+
+# Terraform
 .terraform/
-terraform.tfstate
-terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+crash.log
+
+# IDE
+.vscode/
+
+# Zip Files
+*.zip

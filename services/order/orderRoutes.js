@@ -97,7 +97,26 @@ router.post("/checkout/:userId", async (req, res) => {
   }
 });
 
+// ================= GET ORDERS BY USER =================
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const data = await dynamo.scan({
+      TableName: ORDER_TABLE,
+      FilterExpression: "userId = :u",
+      ExpressionAttributeValues: {
+        ":u": req.params.userId
+      }
+    }).promise();
 
+    res.json({
+      success: true,
+      data: data.Items
+    });
+
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 // ================= GET ORDER BY ID =================
 router.get("/:orderId", async (req, res) => {
   try {
@@ -116,28 +135,6 @@ router.get("/:orderId", async (req, res) => {
     res.json({
       success: true,
       data: data.Item
-    });
-
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
-});
-
-
-// ================= GET ORDERS BY USER =================
-router.get("/user/:userId", async (req, res) => {
-  try {
-    const data = await dynamo.scan({
-      TableName: ORDER_TABLE,
-      FilterExpression: "userId = :u",
-      ExpressionAttributeValues: {
-        ":u": req.params.userId
-      }
-    }).promise();
-
-    res.json({
-      success: true,
-      data: data.Items
     });
 
   } catch (err) {

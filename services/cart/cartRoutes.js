@@ -10,7 +10,7 @@ AWS.config.update({ region: "ap-southeast-1" });
 const dynamo = new AWS.DynamoDB.DocumentClient();
 
 const TABLE = "Prash_Cart-Terraform";
-const PRODUCT_API = "https://lcksw1qszg.execute-api.ap-southeast-1.amazonaws.com/products";
+const PRODUCT_API = process.env.PRODUCT_API;
 
 // ================= ADD TO CART =================
 router.post("/add", async (req, res) => {

@@ -1,0 +1,266 @@
+@keyframes orbDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, 30px) scale(1.1); }
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes toastIn {
+  from { transform: translateX(40px) scale(0.95); opacity: 0; }
+  to   { transform: translateX(0) scale(1); opacity: 1; }
+}
+@keyframes doorOpenLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes doorOpenRight {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+@keyframes glowPulse {
+  0%   { opacity: 0.3; }
+  40%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes logoFadeOut {
+  to { opacity: 0; }
+}
+@keyframes centerLineGlow {
+  0%   { opacity: 1; box-shadow: 0 0 20px rgba(245,166,35,0.8); }
+  80%  { opacity: 1; box-shadow: 0 0 40px rgba(245,166,35,1); }
+  100% { opacity: 0; }
+}
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(28px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes filterBarIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes cardStaggerIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: scale(0.93) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes modalBackdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes toastSlideIn {
+  from { transform: translateX(110%) scale(0.9); opacity: 0; }
+  to   { transform: translateX(0) scale(1);   opacity: 1; }
+}
+
+@keyframes toastSlideOut {
+  from { transform: translateX(0) scale(1);   opacity: 1; }
+  to   { transform: translateX(110%) scale(0.9); opacity: 0; }
+}
+#cinematicOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  display: flex;
+}
+
+.door {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.door-left {
+  transform-origin: left center;
+  animation: doorOpenLeft 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.3s both;
+}
+
+.door-right {
+  transform-origin: right center;
+  animation: doorOpenRight 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.3s both;
+}
+
+
+
+/* Golden glow on door edges */
+.door-glow {
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  animation: glowPulse 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.3s both;
+}
+
+.door-glow-left {
+  right: 0;
+  background: linear-gradient(to left, rgba(245, 166, 35, 0.55), transparent);
+}
+
+.door-glow-right {
+  left: 0;
+  background: linear-gradient(to right, rgba(245, 166, 35, 0.55), transparent);
+}
+
+
+
+/* Logo centered on left door */
+.door-logo {
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 2.4rem;
+  letter-spacing: -0.5px;
+  user-select: none;
+  animation: logoFadeOut 0.6s ease-in 1.5s both;
+  white-space: nowrap;
+}
+
+.door-logo-k   { color: #F5A623; }
+.door-logo-art { color: #f0f0f0; }
+.door-logo-dot { color: #F5A623; opacity: 0.6; }
+
+
+
+/* Center seam line between doors */
+.door-center-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(245, 166, 35, 0.8) 20%,
+    rgba(245, 166, 35, 0.8) 80%,
+    transparent
+  );
+  transform: translateX(-50%);
+  animation: centerLineGlow 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.3s both;
+  pointer-events: none;
+}
+
+
+/* Remove overlay from DOM after animation completes */
+#cinematicOverlay.done {
+  display: none;
+}
+.toast-wrap {
+  top: 80px !important;
+  bottom: auto !important;
+  right: 24px !important;
+}
+
+.toast {
+  animation: toastSlideIn 0.45s cubic-bezier(0.23, 1, 0.32, 1) both !important;
+}
+
+.toast.removing {
+  animation: toastSlideOut 0.35s cubic-bezier(0.77, 0, 0.175, 1) both !important;
+}
+.ambient-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#particleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.25;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orbDrift 18s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+  top: -200px; right: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,209,102,0.08) 0%, transparent 70%);
+  bottom: 0; left: -150px;
+  animation-delay: -6s;
+}
+
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -12s;
+}
+body.intro-done .product-card {
+  animation-delay: var(--card-delay, 0s);
+}
+.btn {
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 0 3px rgba(245,166,35,0.25), 0 8px 24px rgba(245,166,35,0.3) !important;
+  transform: translateY(-1px);
+}
+
+.btn-success:hover {
+  box-shadow: 0 0 0 3px rgba(45,189,125,0.22), 0 8px 20px rgba(45,189,125,0.28) !important;
+  transform: translateY(-1px);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 0 0 3px rgba(240,75,75,0.2), 0 8px 20px rgba(240,75,75,0.25) !important;
+  transform: translateY(-1px);
+}
+
+.btn-accent:hover {
+  box-shadow: 0 0 0 3px rgba(100,160,255,0.2), 0 8px 20px rgba(100,160,255,0.25) !important;
+  transform: translateY(-1px);
+}
+
+.add-cart-btn {
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.add-cart-btn:hover:not([disabled]) {
+  box-shadow: 0 0 0 2px rgba(245,166,35,0.3), 0 6px 20px rgba(245,166,35,0.2) !important;
+  transform: translateY(-1px);
+}
+.product-card {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  animation: cardStaggerIn 0.55s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* Stagger delays are set inline via JS; base delay accounts for overlay */
+.product-card { animation-delay: calc(2.9s + var(--card-delay, 0s)); }
+
+.page.active {
+  animation: pageFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) both !important;
+}

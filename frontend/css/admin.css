@@ -1,0 +1,80 @@
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+.admin-card { padding: 1.75rem; }
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.admin-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-icon    { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(245,166,35,0.2); }
+.edit-icon   { background: rgba(100,160,255,0.1); color: #64a0ff; border: 1px solid rgba(100,160,255,0.2); }
+.delete-icon { background: rgba(240,75,75,0.1); color: #f87171; border: 1px solid rgba(240,75,75,0.2); }
+
+.admin-card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.admin-card-desc {
+  font-size: 0.78rem;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,166,35,0.2);
+  padding: 5px 12px;
+  border-radius: 9999px;
+}
+
+.danger-card { border-color: rgba(240,75,75,0.12); }
+.danger-card:hover { border-color: rgba(240,75,75,0.25); }
+
+.danger-hint {
+  font-size: 0.82rem;
+  color: var(--text3);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  font-weight: 300;
+}
+
+.danger-hint code {
+  background: rgba(255,255,255,0.06);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: var(--text2);
+}

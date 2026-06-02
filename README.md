@@ -1,61 +1,52 @@
-# KART — Serverless E-Commerce Platform
+# Serverless E-Commerce Platform on AWS
 
-> A cloud-native, production-style serverless e-commerce application built on AWS using a microservices architecture — featuring real-time stock validation, automatic cart management, and full order lifecycle tracking.
+A serverless e-commerce application built using AWS services, Terraform Infrastructure as Code, Node.js microservices, and a modular frontend architecture.
 
----
+## Features
 
-## 🌐 Live Demo
+* Product Management
+* Shopping Cart
+* Order Management
+* Product Comparison
+* Pagination
+* Responsive UI
+* CloudFront + S3 Frontend Hosting
+* API Gateway
+* AWS Lambda
+* DynamoDB
+* Terraform Infrastructure as Code
 
 | Service | Endpoint |
 |--------|----------|
 | Frontend | `https://dx4o02gcthxe4.cloudfront.net` |
 | API Gateway | `https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com` |
+## Project Structure
 
----
+serverless-ecommerce-aws/
 
-## 🏗️ Architecture
+* frontend/
 
-```
-Browser (HTML/CSS/JS)
-        │
-        ▼
-  CloudFront (CDN)
-        │
-        ▼
-  S3 Static Website
-        │
-        ▼
-  API Gateway (HTTP API)
-   ┌────┴────────────┐──────────────────┐
-   ▼                 ▼                  ▼
-Lambda            Lambda             Lambda
-(product-service) (cart-service)    (order-service)
-   │                 │                  │
-   └────────┬────────┘──────────────────┘
-            ▼
-        DynamoDB
-  ┌──────────────────────┐
-  │  Prash_Products      │
-  │  Prash_Cart          │
-  │  Prash_Orders        │
-  └──────────────────────┘
-```
+  * css/
+  * js/
+  * index.html
 
----
+* infrastructure/
 
-## ✨ Features
+  * main.tf
+  * lambda.tf
+  * dynamodb.tf
+  * api-gateway.tf
+  * iam.tf
+  * permissions.tf
+  * frontend.tf
+  * variables.tf
+  * outputs.tf
 
-### 🛍️ Shopping
-- Browse full product catalog with category filtering
-- Real-time stock availability display
-- One-click add to cart from product listing
-- Quantity management inside cart
+* services/
 
-### 🛒 Cart
-- Persistent cart using DynamoDB (survives Lambda cold starts)
-- Auto-fetches product details (name, price) during add-to-cart
-- Stock validation before adding items
-- Duplicate item detection — increases quantity instead of duplicate entry
+  * product/
+  * cart/
+  * order/
 
 ### 📦 Orders
 - Full checkout flow — cart → order with stock deduction
@@ -224,128 +215,23 @@ terraform-ecommerce/
 - AWS CLI configured with appropriate credentials
 
 ### Steps
+## Deployment
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/prashaant/kart.git
-cd kart
-
-# 2. Install dependencies for each service
-cd product-services && npm install && cd ..
-cd cart-services && npm install && cd ..
-cd order-services && npm install && cd ..
-
-# 3. Deploy infrastructure
 terraform init
 terraform plan
 terraform apply
 ```
 
-Terraform provisions:
-- 3 Lambda functions
-- API Gateway (HTTP API) with all routes
-- 3 DynamoDB tables
-- IAM role with DynamoDB access
-- S3 bucket + CloudFront for frontend
-- Lambda permissions for API Gateway
+## Tech Stack
 
----
-
-## 🧪 Testing
-
-### Unit Tests
-
-```bash
-# Product service
-cd product-services && npm test
-
-# Cart service
-cd cart-services && npm test
-
-# Order service
-cd order-services && npm test
-```
-
-### End-to-End Tests
-
-```bash
-node e2e-test.js
-```
-
-**E2E coverage:**
-- Full product lifecycle (create → read → update → delete)
-- Add to cart with stock validation
-- Cart operations (add, update, remove, clear)
-- Checkout flow with stock deduction
-- Order status updates
-- Edge cases: empty cart checkout, out-of-stock items
-
----
-
-## 🧠 Key Design Decisions
-
-| Decision | Reason |
-|----------|--------|
-| Lambda over EC2 | Zero server management, auto-scaling, pay-per-use |
-| DynamoDB over RDS | Serverless-native, single-digit ms latency, no connection pooling |
-| HTTP API Gateway over REST | Lower cost, lower latency for this use case |
-| Terraform for IaC | Reproducible, version-controlled infrastructure |
-| `serverless-http` wrapper | Reuse Express routes without rewriting for Lambda event format |
-| `crypto.randomUUID()` over `uuid` pkg | Built-in Node.js 18+, zero dependency, avoids ESM/CJS conflicts |
-
----
-
-## 🏛️ Architectural Principles
-
-### Stateless Design
-Each Lambda invocation is independent — no session or in-memory state shared between requests.
-
-### Loosely Coupled Microservices
-Services communicate only via REST API calls — cart-service calls product-service API, not the database directly.
-
-### API-First
-Frontend communicates exclusively via REST API. UI is completely decoupled from backend.
-
-### Idempotency
-`PUT` and `DELETE` operations are safe to retry — repeated calls produce the same result.
-
----
-
-## 🔒 Security
-
-### Current
-- Input validation on all API endpoints
-- API Gateway as controlled entry point
-- IAM roles with least-privilege DynamoDB access
-
-### Planned Enhancements
-- JWT-based authentication
-- AWS Cognito user pools
-- Role-based access control (user vs admin)
-- API rate limiting
-- AWS WAF integration
-
----
-
-## ⚠️ Known Limitations
-
-- No authentication layer (all endpoints are public)
-- Order data stored in-memory (resets on Lambda cold start) — DynamoDB migration planned
-- No rate limiting on API Gateway
-- No centralized logging (CloudWatch not yet configured)
-
----
-
-## 👨‍💻 Author
-
-**Prashaant V**
-Cloud & Backend Developer
-[github.com/prashaant](https://github.com/prashaant)
-
----
-
-## ⭐ About This Project
-
-KART demonstrates a **production-aligned serverless architecture** — combining microservices design, cloud-native infrastructure-as-code, REST API design, and a responsive frontend. Built to reflect real-world engineering practices used at product companies.
-
----
+* HTML
+* CSS
+* JavaScript
+* Node.js
+* AWS Lambda
+* API Gateway
+* DynamoDB
+* S3
+* CloudFront
+* Terraform

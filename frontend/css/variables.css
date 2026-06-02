@@ -1,0 +1,40 @@
+:root {
+  /* ── Core Palette ── */
+  --bg:          #080808;
+  --bg2:         #0f0f0f;
+  --bg3:         #141414;
+  --card:        rgba(18, 18, 20, 0.85);
+  --card-border: rgba(255, 255, 255, 0.07);
+  --card-hover:  rgba(255, 255, 255, 0.04);
+
+  /* ── Accent ── */
+  --accent:      #F5A623;
+  --accent2:     #FFD166;
+  --accent-glow: rgba(245, 166, 35, 0.25);
+  --accent-dim:  rgba(245, 166, 35, 0.12);
+  --success:     #2dbd7d;
+  --danger:      #f04b4b;
+
+  /* ── Text ── */
+  --text:        #f0f0f0;
+  --text2:       #888;
+  --text3:       #555;
+  --muted:       #444;
+
+  /* ── Geometry ── */
+  --radius:    14px;
+  --radius-sm: 9px;
+  --radius-xs: 6px;
+
+  /* ── Typography ── */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* ── Shadows ── */
+  --shadow:    0 20px 60px rgba(0,0,0,0.6);
+  --shadow-sm: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px var(--accent-glow);
+
+  /* ── Transitions ── */
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
