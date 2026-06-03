@@ -6,7 +6,7 @@ function initParticles() {
   let W, H, particles = [];
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
   resize();
@@ -55,8 +55,10 @@ function initScrollNavbar() {
 // [UNCHANGED] Category emoji helper
 // ─────────────────────────────────────────────────────────────
 function catEmoji(cat = "") {
-  const m = { electronics:"⚡", fashion:"👟", sports:"🏃", home:"🏠",
-              food:"🍜", beauty:"✨", books:"📚", toys:"🎮", health:"💊" };
+  const m = {
+    electronics: "⚡", fashion: "👟", sports: "🏃", home: "🏠",
+    food: "🍜", beauty: "✨", books: "📚", toys: "🎮", health: "💊"
+  };
   return m[cat.toLowerCase()] || "📦";
 }
 
@@ -65,7 +67,7 @@ function catEmoji(cat = "") {
 // ─────────────────────────────────────────────────────────────
 function toast(msg, type = "info") {
   const wrap = document.getElementById("toastWrap");
-  const el   = document.createElement("div");
+  const el = document.createElement("div");
   el.className = `toast ${type}`;
   el.innerHTML = `<div class="toast-dot"></div>${msg}`;
   wrap.appendChild(el);
@@ -82,8 +84,8 @@ function switchTab(name) {
   document.querySelector(`.tab[data-page="${name}"]`).classList.add("active");
 
   if (name === "products") loadProducts();
-  if (name === "cart")     viewCart();
-  if (name === "orders")   loadOrders();
+  if (name === "cart") viewCart();
+  if (name === "orders") loadOrders();
 }
 
 function initCinematicEntrance() {
@@ -116,7 +118,7 @@ function initCinematicEntrance() {
 // ─────────────────────────────────────────────────────────────
 function toastEnhanced(msg, type = "info") {
   const wrap = document.getElementById("toastWrap");
-  const el   = document.createElement("div");
+  const el = document.createElement("div");
   el.className = `toast ${type}`;
   el.innerHTML = `<div class="toast-dot"></div>${msg}`;
   wrap.appendChild(el);
@@ -163,7 +165,7 @@ function applyCardStaggerDelays() {
 // [NEW] Smooth page fade — patch switchTab to add fade class
 // ─────────────────────────────────────────────────────────────
 const _origSwitchTab = switchTab;
-window.switchTab = function(name) {
+window.switchTab = function (name) {
   // Add a micro-transition by briefly setting opacity before the active swap
   const pages = document.querySelectorAll(".page.active");
   pages.forEach(p => {
@@ -185,7 +187,15 @@ function selectRole(role) {
   document
     .querySelectorAll(".hidden-app")
     .forEach(el => el.classList.remove("hidden-app"));
-  
+
+  // Update navbar user status if logged in
+  if (localStorage.getItem("cognito_id_token")) {
+      const loginBtn = document.getElementById("loginBtn");
+      const userInfo = document.getElementById("userInfo");
+      if (loginBtn) loginBtn.style.display = "none";
+      if (userInfo) userInfo.style.display = "flex";
+  }
+
   if (role === "customer") {
     window.currentRole = "customer";
     document.getElementById("adminTab").style.display = "none";
@@ -194,21 +204,21 @@ function selectRole(role) {
     updateBadge();
 
     switchTab("products");
-}
+  }
 
   if (role === "admin") {
-  window.currentRole = "admin";
-  document.getElementById("shopTab").style.display = "none";
-  document.getElementById("cartTab").style.display = "none";
-  document.getElementById("ordersTab").style.display = "none";
+    window.currentRole = "admin";
+    document.getElementById("shopTab").style.display = "none";
+    document.getElementById("cartTab").style.display = "none";
+    document.getElementById("ordersTab").style.display = "none";
 
-  document.getElementById("adminProductsTab").style.display = "flex";
+    document.getElementById("adminProductsTab").style.display = "flex";
 
-  document.querySelector(".nav-user").style.display = "none";
+    document.querySelector(".nav-user").style.display = "none";
 
-  loadProducts();
-  updateBadge();
+    loadProducts();
+    updateBadge();
 
-  switchTab("admin");
+    switchTab("admin");
   }
 }

@@ -1,6 +1,6 @@
 async function addToCart(productId, stock) {
   try {
-    const res = await fetch(`${BASE_URL}/cart/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/cart/${getCurrentUserId()}`);
     const data = await res.json();
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     const existingItem = items.find(i => i.productId === productId);
@@ -14,7 +14,7 @@ async function addToCart(productId, stock) {
     await fetch(`${BASE_URL}/cart/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: USER_ID, productId, quantity: 1 })
+      body: JSON.stringify({ userId: getCurrentUserId(), productId, quantity: 1 })
     });
 
     toast("Added to cart!", "success");
@@ -31,7 +31,7 @@ async function addToCart(productId, stock) {
 // ─────────────────────────────────────────────────────────────
 async function renderCartControls(productId, stock) {
   try {
-    const res = await fetch(`${BASE_URL}/cart/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/cart/${getCurrentUserId()}`);
     const data = await res.json();
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     const item = items.find(i => i.productId === productId);
@@ -61,7 +61,7 @@ async function renderCartControls(productId, stock) {
 // ─────────────────────────────────────────────────────────────
 async function decreaseItem(productId, stock) {
   try {
-    const res = await fetch(`${BASE_URL}/cart/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/cart/${getCurrentUserId()}`);
     const data = await res.json();
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     const item = items.find(i => i.productId === productId);
@@ -72,7 +72,7 @@ async function decreaseItem(productId, stock) {
     await fetch(`${BASE_URL}/cart/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: USER_ID, productId, quantity: -1 })
+      body: JSON.stringify({ userId: getCurrentUserId(), productId, quantity: -1 })
     });
 
     loadProducts();
@@ -91,7 +91,7 @@ async function viewCart() {
   container.innerHTML = `<div class="empty-state"><div class="empty-icon">⏳</div><p>Loading cart…</p></div>`;
 
   try {
-    const res = await fetch(`${BASE_URL}/cart/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/cart/${getCurrentUserId()}`);
     const data = await res.json();
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     const filteredItems = items.filter(item => item.quantity > 0);
@@ -138,7 +138,7 @@ async function updateBadge(count = null) {
   const badge = document.getElementById("cartBadge");
   if (count !== null) { badge.textContent = count; return; }
   try {
-    const res = await fetch(`${BASE_URL}/cart/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/cart/${getCurrentUserId()}`);
     const data = await res.json();
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     badge.textContent = items.length;

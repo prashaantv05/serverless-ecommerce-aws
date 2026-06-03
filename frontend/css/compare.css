@@ -123,8 +123,6 @@
   animation: modalScaleIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-
-
 .compare-modal:not(.hidden) {
   animation: modalBackdropIn 0.35s ease both;
 }
