@@ -5,6 +5,10 @@ resource "aws_lambda_function" "product" {
   role             = aws_iam_role.lambda_role.arn
   filename         = "${path.module}/../services/product/product.zip"
   source_code_hash = filebase64sha256("${path.module}/../services/product/product.zip")
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 resource "aws_lambda_function" "cart" {
@@ -19,6 +23,10 @@ resource "aws_lambda_function" "cart" {
       PRODUCT_API = "https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com/products"
     }
   }
+
+  tracing_config {
+    mode = "Active"
+  }
 }
 
 resource "aws_lambda_function" "order" {
@@ -28,4 +36,8 @@ resource "aws_lambda_function" "order" {
   role             = aws_iam_role.lambda_role.arn
   filename         = "${path.module}/../services/order/order.zip"
   source_code_hash = filebase64sha256("${path.module}/../services/order/order.zip")
+
+  tracing_config {
+    mode = "Active"
+  }
 }
