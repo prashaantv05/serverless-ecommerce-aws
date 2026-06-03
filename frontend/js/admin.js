@@ -53,7 +53,35 @@ async function updateProduct() {
       .forEach(id => document.getElementById(id).value = "");
     loadProducts();
   } catch (err) {
+
     toast(err.message, "error");
   }
 }
 
+
+// -------------------------------------------------------------
+// -------------------------------------------------------------
+// [NEW] Admin: loadAdminDashboard (Powered by BFF)
+// -------------------------------------------------------------
+async function loadAdminDashboard() {
+  try {
+    const pRes = await fetch(`${BASE_URL}/products/`);
+    const pJson = await pRes.json();
+    let productCount = pJson.data ? pJson.data.length : 0;
+
+    const oRes = await fetch(`${BASE_URL}/orders/`);
+    const oJson = await oRes.json();
+    let totalRevenue = 0;
+    if (oJson.data) {
+       oJson.data.forEach(o => totalRevenue += Number(o.total || 0));
+    }
+
+    const tEl = document.getElementById("adminTotalProducts");
+    if (tEl) tEl.textContent = productCount;
+    const rEl = document.getElementById("adminTotalRevenue");
+    if (rEl) rEl.textContent = "₹" + totalRevenue.toLocaleString("en-IN");
+
+  } catch (err) {
+    console.error("Admin dashboard load error:", err);
+  }
+}

@@ -83,7 +83,17 @@ function switchTab(name) {
   document.getElementById(`page-${name}`).classList.add("active");
   document.querySelector(`.tab[data-page="${name}"]`).classList.add("active");
 
-  if (name === "products") loadProducts();
+  if (name === "products") {
+    const hero = document.querySelector(".hero");
+    if (hero) {
+      if (window.currentRole === "admin") {
+        hero.style.display = "none";
+      } else {
+        hero.style.display = "flex";
+      }
+    }
+    loadProducts();
+  }
   if (name === "cart") viewCart();
   if (name === "orders") loadOrders();
 }
@@ -218,6 +228,7 @@ function selectRole(role) {
 
     loadProducts();
     updateBadge();
+    loadAdminDashboard();
 
     switchTab("admin");
   }

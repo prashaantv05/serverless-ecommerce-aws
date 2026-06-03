@@ -142,4 +142,20 @@ router.get("/:orderId", async (req, res) => {
   }
 });
 
+// ================= GET ALL ORDERS (ADMIN) =================
+router.get("/", async (req, res) => {
+  try {
+    const data = await dynamo.scan({
+      TableName: ORDER_TABLE
+    }).promise();
+
+    res.json({
+      success: true,
+      data: data.Items
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;
