@@ -41,52 +41,9 @@ The frontend is hosted on **Amazon S3** and delivered globally through **Amazon 
 
 ## 🏗️ Architecture
 
-```mermaid
-graph TD
-    User([User / Browser])
-    CF[Amazon CloudFront]
-    S3[Amazon S3 - Frontend Hosting]
-    API[Amazon API Gateway]
-    Cognito[Amazon Cognito - Auth]
-    
-    subgraph Microservices
-        Product[Product Service - Lambda]
-        Cart[Cart Service - Lambda]
-        Order[Order Service - Lambda]
-    end
-    
-    subgraph Databases
-        DB_Product[(DynamoDB Products)]
-        DB_Cart[(DynamoDB Cart)]
-        DB_Order[(DynamoDB Orders)]
-    end
-    
-    subgraph Observability
-        CW[CloudWatch Alarms & Dashboards]
-        SNS[SNS Topics]
-        SQS[SQS Queues]
-    end
+![Architecture Diagram](image.png)
 
-    User -->|Static Assets| CF
-    CF --> S3
-    User -->|Authentication| Cognito
-    User -->|REST API| API
-    
-    API --> Product
-    API --> Cart
-    API --> Order
-    
-    Product --> DB_Product
-    Cart --> DB_Cart
-    Order --> DB_Order
-    
-    Product -.-> CW
-    Cart -.-> CW
-    Order -.-> CW
-    
-    CW --> SNS
-    SNS --> SQS
-```
+*A visual representation of the Serverless E-Commerce platform architecture.*
 
 ---
 
