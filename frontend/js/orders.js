@@ -1,12 +1,13 @@
 async function checkout() {
   const shippingAddress = document.getElementById("shippingInput").value.trim() || "Chennai";
   const paymentMethod = document.getElementById("paymentSelect").value;
+  const promoCode = document.getElementById("promoInput") ? document.getElementById("promoInput").value.trim().toUpperCase() : "";
 
   try {
     const res = await fetch(`${BASE_URL}/orders/checkout/${getCurrentUserId()}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shippingAddress, paymentMethod })
+      body: JSON.stringify({ shippingAddress, paymentMethod, promoCode })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Checkout failed");
@@ -16,6 +17,9 @@ async function checkout() {
       `<div class="order-result">✅ Order placed! ID: <strong>${orderId}</strong></div>`;
 
     toast("Order placed successfully! 🎉", "success");
+    if(document.getElementById("promoInput")) document.getElementById("promoInput").value = "";
+    if(document.getElementById("promoSuggestion")) document.getElementById("promoSuggestion").classList.remove("show");
+    
     updateBadge(0);
     loadOrders();
   } catch (err) {
@@ -55,8 +59,8 @@ async function loadOrders() {
           ${(o.items || []).map(i => `${i.name} × ${i.quantity} — ₹${(i.price * i.quantity).toLocaleString("en-IN")}`).join("<br>")}
         </div>
         <div class="order-card-bottom">
-          <div class="order-total-val">₹${Number(o.total).toLocaleString("en-IN")}</div>
-          <div class="order-payment">${o.paymentMethod || "COD"}</div>
+          <div class="order-total-val">₹${Number(o.total).toLocaleString("en-IN")} ${o.discountAmount ? `<span style="font-size:0.85rem;color:#10b981;font-weight:normal;margin-left:8px;">(Saved ₹${Number(o.discountAmount).toLocaleString("en-IN")})</span>` : ""}</div>
+          <div class="order-payment">${o.promoApplied ? `<span class="badge" style="background:#10b981;color:#fff;border:none;">${o.promoApplied}</span> ` : ""}${o.paymentMethod || "COD"}</div>
         </div>
       </div>`).join("");
   } catch (err) {

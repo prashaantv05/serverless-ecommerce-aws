@@ -126,7 +126,14 @@ async function viewCart() {
     const fmt = `₹${total.toLocaleString("en-IN")}`;
     document.getElementById("subtotal").textContent = fmt;
     document.getElementById("cartTotal").textContent = fmt;
+    
+    // Store original total in dataset for promo recalculation
+    document.getElementById("cartTotal").dataset.originalTotal = total;
+    
     updateBadge(filteredItems.length);
+    
+    // Trigger promo check when visiting cart
+    checkPromoEligibility(total);
 
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><p>${err.message}</p></div>`;
@@ -143,4 +150,64 @@ async function updateBadge(count = null) {
     const items = Array.isArray(data.data) ? data.data : (data.data?.items || []);
     badge.textContent = items.length;
   } catch { badge.textContent = 0; }
+}
+
+// ─────────────────────────────────────────────────────────────
+// [NEW] checkPromoEligibility
+// ─────────────────────────────────────────────────────────────
+function checkPromoEligibility(total) {
+  const suggEl = document.getElementById("promoSuggestion");
+  if (!suggEl) return;
+
+  let suggestion = null;
+  let code = "";
+  let discountAmount = 0;
+
+  if (total > 20000) { suggestion = "🎁 Unlock MEGA30 for 30% off!"; code = "MEGA30"; discountAmount = total * 0.30; }
+  else if (total > 10000) { suggestion = "🎁 Unlock KART20 for 20% off!"; code = "KART20"; discountAmount = total * 0.20; }
+  else if (total > 5000) { suggestion = "🎁 Unlock MINUS500 for flat ₹500 off!"; code = "MINUS500"; discountAmount = 500; }
+  else if (total > 2000) { suggestion = "🎁 Unlock FREESHIP for flat ₹100 off!"; code = "FREESHIP"; discountAmount = 100; }
+
+  if (suggestion) {
+    suggEl.innerHTML = `<span>${suggestion}</span> <strong>Click to apply</strong>`;
+    suggEl.classList.add("show");
+    
+    suggEl.onclick = () => {
+      document.getElementById("promoInput").value = code;
+      toast(`Promo code ${code} applied!`, "success");
+      suggEl.classList.remove("show");
+      
+      // Update the total UI
+      const finalTotal = total - discountAmount;
+      document.getElementById("cartTotal").innerHTML = `
+        <span style="text-decoration: line-through; font-size: 0.8rem; color: #888;">₹${total.toLocaleString("en-IN")}</span> 
+        ₹${finalTotal.toLocaleString("en-IN")}
+      `;
+    };
+  } else {
+    suggEl.classList.remove("show");
+  }
+  
+  // Also add listener to manual input just in case they type it and blur
+  const inputEl = document.getElementById("promoInput");
+  if (inputEl) {
+    inputEl.oninput = () => {
+      let val = inputEl.value.trim().toUpperCase();
+      let manualDiscount = 0;
+      if (val === "MEGA30" && total > 20000) manualDiscount = total * 0.30;
+      else if (val === "KART20" && total > 10000) manualDiscount = total * 0.20;
+      else if (val === "MINUS500" && total > 5000) manualDiscount = 500;
+      else if (val === "FREESHIP" && total > 2000) manualDiscount = 100;
+      
+      if (manualDiscount > 0) {
+        const finalTotal = total - manualDiscount;
+        document.getElementById("cartTotal").innerHTML = `
+          <span style="text-decoration: line-through; font-size: 0.8rem; color: #888;">₹${total.toLocaleString("en-IN")}</span> 
+          ₹${finalTotal.toLocaleString("en-IN")}
+        `;
+      } else {
+        document.getElementById("cartTotal").textContent = `₹${total.toLocaleString("en-IN")}`;
+      }
+    };
+  }
 }

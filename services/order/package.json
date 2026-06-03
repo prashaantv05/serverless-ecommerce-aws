@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "adm-zip": "^0.5.17",
     "aws-sdk": "^2.1693.0",
     "axios": "^1.15.0",
     "cors": "^2.8.6",

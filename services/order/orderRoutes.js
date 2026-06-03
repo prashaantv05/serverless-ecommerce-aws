@@ -14,7 +14,7 @@ const ORDER_TABLE = "Prash_Orders-Terraform";
 router.post("/checkout/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const { shippingAddress, paymentMethod } = req.body;
+    const { shippingAddress, paymentMethod, promoCode } = req.body;
 
     // 🔥 1. GET CART ITEMS
     const cartData = await dynamo.query({
@@ -34,11 +34,33 @@ router.post("/checkout/:userId", async (req, res) => {
       });
     }
 
-    // 🔥 2. CALCULATE TOTAL
-    let total = 0;
+    // 🔥 2. CALCULATE TOTAL & APPLY PROMO
+    let rawTotal = 0;
     cartItems.forEach(item => {
-      total += item.price * item.quantity;
+      rawTotal += item.price * item.quantity;
     });
+
+    let finalTotal = rawTotal;
+    let discountAmount = 0;
+    let promoApplied = null;
+
+    if (promoCode) {
+      if (promoCode === "MEGA30" && rawTotal > 20000) {
+        discountAmount = rawTotal * 0.30;
+        promoApplied = "MEGA30";
+      } else if (promoCode === "KART20" && rawTotal > 10000) {
+        discountAmount = rawTotal * 0.20;
+        promoApplied = "KART20";
+      } else if (promoCode === "MINUS500" && rawTotal > 5000) {
+        discountAmount = 500;
+        promoApplied = "MINUS500";
+      } else if (promoCode === "FREESHIP" && rawTotal > 2000) {
+        discountAmount = 100;
+        promoApplied = "FREESHIP";
+      }
+      
+      finalTotal = rawTotal - discountAmount;
+    }
 
     // 🔥 3. REDUCE STOCK
     for (let item of cartItems) {
@@ -59,7 +81,10 @@ router.post("/checkout/:userId", async (req, res) => {
       orderId,
       userId,
       items: cartItems,
-      total,
+      total: finalTotal,
+      rawTotal,
+      discountAmount,
+      promoApplied,
       shippingAddress,
       paymentMethod,
       createdAt: new Date().toISOString()
