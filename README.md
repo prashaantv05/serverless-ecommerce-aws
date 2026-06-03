@@ -1,8 +1,8 @@
 # 🛒 Serverless E-Commerce Platform on AWS
 
-A cloud-native e-commerce application built using AWS serverless services, Terraform Infrastructure as Code (IaC), Node.js microservices, and a modular frontend architecture.
+A highly-scalable, cloud-native e-commerce application built using AWS serverless services, Terraform Infrastructure as Code (IaC), Node.js microservices, and a fast, modern frontend architecture.
 
-This project demonstrates modern cloud engineering practices including serverless architecture, Infrastructure as Code, microservices, CDN-based frontend delivery, and automated AWS resource provisioning.
+This project demonstrates advanced cloud engineering practices, including serverless computing, Event-Driven Architecture, secure Authentication, Dynamic Rules Engines, and automated AWS resource provisioning.
 
 ---
 
@@ -13,62 +13,79 @@ This project demonstrates modern cloud engineering practices including serverles
 | Frontend    | https://dx4o02gcthxe4.cloudfront.net                        |
 | API Gateway | https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com |
 
-The frontend is hosted on Amazon S3 and delivered globally through Amazon CloudFront. Backend APIs are exposed through Amazon API Gateway and powered by AWS Lambda microservices.
+The frontend is hosted on **Amazon S3** and delivered globally through **Amazon CloudFront**. Backend APIs are exposed through **Amazon API Gateway** and powered by scalable **AWS Lambda** microservices.
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### Customer Features
+### 🛍️ Customer Experience
+* **Dynamic Promo Rules Engine:** A smart cart that analyzes spend and dynamically surfaces discount codes (e.g., *Spend > ₹10,000 for 20% off*), complete with secure server-side validation.
+* **Authentication & Authorization:** Secure login backed by **Amazon Cognito**.
+* **Seamless Checkout:** Instant cart calculations with quick-checkout functionality.
+* **Product Catalog:** Real-time product browsing with dynamic inventory syncing.
+* **Order History:** Detailed historical tracking of previous orders and applied discounts.
 
-* Product Catalog Management
-* Product Search & Filtering
-* Product Comparison
-* Shopping Cart Management
-* Order Placement & Tracking
-* Order History
-* Responsive User Interface
+### 🛡️ Admin Dashboard
+* **Role-Based Access Control (RBAC):** Dedicated Admin views explicitly secured via Cognito Groups.
+* **Inventory Management:** Full CRUD operations to add, update, or delete products.
+* **Live Analytics:** Real-time visualization of Total Products and Total Revenue aggregated across the platform.
 
-### Admin Features
-
-* Add Products
-* Update Products
-* Delete Products
-* Inventory Management
-* Category Management
-
-### Cloud Features
-
-* Serverless Architecture
-* Terraform Infrastructure as Code
-* CloudFront CDN Distribution
-* S3 Static Website Hosting
-* API Gateway REST APIs
-* DynamoDB NoSQL Database
-* AWS Lambda Microservices
+### ☁️ Cloud & DevOps Features
+* **100% Serverless Architecture:** Zero servers to manage, infinitely scalable.
+* **Infrastructure as Code:** Fully managed and reproducible environments via **Terraform**.
+* **Monitoring & Alerts:** Custom **CloudWatch Dashboards** and Alarms for Lambda durations, API 5xx errors, and throttling.
+* **Event-Driven Messaging:** Integration with **Amazon SNS** and **SQS** for asynchronous alerts and decoupling.
 
 ---
 
 ## 🏗️ Architecture
 
-```text
-User
- │
- ▼
-CloudFront
- │
- ▼
-Amazon S3 (Frontend)
- │
- ▼
-API Gateway
- │
- ├── Product Service (Lambda)
- ├── Cart Service (Lambda)
- └── Order Service (Lambda)
-        │
-        ▼
-     DynamoDB
+```mermaid
+graph TD
+    User([User / Browser])
+    CF[Amazon CloudFront]
+    S3[Amazon S3 - Frontend Hosting]
+    API[Amazon API Gateway]
+    Cognito[Amazon Cognito - Auth]
+    
+    subgraph Microservices
+        Product[Product Service - Lambda]
+        Cart[Cart Service - Lambda]
+        Order[Order Service - Lambda]
+    end
+    
+    subgraph Databases
+        DB_Product[(DynamoDB Products)]
+        DB_Cart[(DynamoDB Cart)]
+        DB_Order[(DynamoDB Orders)]
+    end
+    
+    subgraph Observability
+        CW[CloudWatch Alarms & Dashboards]
+        SNS[SNS Topics]
+        SQS[SQS Queues]
+    end
+
+    User -->|Static Assets| CF
+    CF --> S3
+    User -->|Authentication| Cognito
+    User -->|REST API| API
+    
+    API --> Product
+    API --> Cart
+    API --> Order
+    
+    Product --> DB_Product
+    Cart --> DB_Cart
+    Order --> DB_Order
+    
+    Product -.-> CW
+    Cart -.-> CW
+    Order -.-> CW
+    
+    CW --> SNS
+    SNS --> SQS
 ```
 
 ---
@@ -77,43 +94,30 @@ API Gateway
 
 | Service            | Purpose                                    |
 | ------------------ | ------------------------------------------ |
-| AWS Lambda         | Serverless backend microservices           |
-| Amazon API Gateway | REST API management                        |
-| Amazon DynamoDB    | NoSQL data storage                         |
-| Amazon S3          | Static frontend hosting                    |
-| Amazon CloudFront  | Global content delivery                    |
-| AWS IAM            | Security and access control                |
-| Terraform          | Infrastructure provisioning and management |
+| **AWS Lambda**         | Serverless backend microservices           |
+| **Amazon API Gateway** | REST API management and routing            |
+| **Amazon DynamoDB**    | Highly-scalable NoSQL data storage         |
+| **Amazon Cognito**     | Secure user authentication & RBAC          |
+| **Amazon CloudWatch**  | Logs, Metrics, Alarms, and Dashboards      |
+| **Amazon SNS & SQS**   | Event-driven alerts and queueing           |
+| **Amazon S3**          | Static frontend hosting                    |
+| **Amazon CloudFront**  | Global content delivery network (CDN)      |
+| **AWS IAM**            | Granular security and access control       |
 
 ---
 
 ## 🛠️ Technology Stack
 
 ### Frontend
-
-* HTML5
-* CSS3
-* JavaScript (ES6)
+* HTML5 & Vanilla CSS3 (Custom Glassmorphism Design System)
+* Vanilla JavaScript (ES6+) for ultra-fast, zero-dependency rendering
 
 ### Backend
-
 * Node.js
-* Express.js
+* Express.js wrapped in `serverless-http`
 
 ### Cloud & Infrastructure
-
-* AWS Lambda
-* Amazon API Gateway
-* Amazon DynamoDB
-* Amazon S3
-* Amazon CloudFront
-* AWS IAM
-* Terraform
-
-### Testing
-
-* Jest
-* Supertest
+* Terraform (IaC)
 
 ---
 
@@ -122,92 +126,53 @@ API Gateway
 ```text
 serverless-ecommerce-aws/
 
-├── frontend/
-│   ├── css/
-│   ├── js/
-│   └── index.html
+├── frontend/                 # S3/CloudFront static assets
+│   ├── css/                  # Modular stylesheets
+│   ├── js/                   # Vanilla JS logic (auth, cart, orders, ui)
+│   └── index.html            # Main SPA entrypoint
 │
-├── infrastructure/
-│   ├── main.tf
-│   ├── lambda.tf
-│   ├── dynamodb.tf
-│   ├── api-gateway.tf
-│   ├── iam.tf
-│   ├── permissions.tf
-│   ├── frontend.tf
-│   ├── variables.tf
-│   └── outputs.tf
+├── infrastructure/           # Terraform IaC definitions
+│   ├── main.tf               # Providers & global config
+│   ├── lambda.tf             # Microservice definitions
+│   ├── dynamodb.tf           # NoSQL table schemas
+│   ├── api-gateway.tf        # REST API routing
+│   ├── cognito.tf            # Auth pools & groups
+│   ├── observability.tf      # CloudWatch, SNS, SQS
+│   ├── frontend.tf           # S3 & CloudFront
+│   └── variables.tf          # Environment variables
 │
-├── services/
-│   ├── product/
-│   ├── cart/
-│   └── order/
+├── services/                 # Node.js Microservices
+│   ├── product/              # Inventory & Catalog
+│   ├── cart/                 # User shopping carts
+│   └── order/                # Checkout & Discount Engine
 │
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
 ---
 
 ## ⚙️ Deployment
 
+This project uses **Terraform** for seamless 1-click deployments.
+
 ```bash
+cd infrastructure
 terraform init
 terraform plan
-terraform apply
+terraform apply -auto-approve
 ```
 
-Terraform provisions:
-
-* AWS Lambda Functions
-* API Gateway
-* DynamoDB Tables
-* S3 Bucket
-* CloudFront Distribution
-* IAM Roles and Policies
+Terraform automatically provisions and wires together the API Gateway, Lambda functions, DynamoDB tables, Cognito User Pools, S3 buckets, CloudFront CDN, and IAM policies.
 
 ---
 
-## 🧪 Testing
+## 📚 Learning Outcomes & Business Value
 
-Run service-level unit tests using Jest:
-
-```bash
-cd services/product
-npm test
-
-cd ../cart
-npm test
-
-cd ../order
-npm test
-```
-
----
-
-## 📚 Learning Outcomes
-
-This project demonstrates practical experience with:
-
-* Serverless Architecture
-* AWS Cloud Services
-* Infrastructure as Code (Terraform)
-* Microservices Design
-* REST API Development
-* DynamoDB Data Modeling
-* Frontend Modularization
-* Cloud Deployment & Automation
-
----
-
-## 🔮 Future Enhancements
-
-* AWS WAF Integration
-* Amazon SQS for Order Processing
-* CloudWatch Monitoring & Observability
-* GitHub Actions CI/CD Pipeline
-* Amazon Cognito Authentication
-* Gamification & Reward System
+This architecture proves highly valuable for modern enterprises because it provides:
+1. **Zero-Maintenance Scale:** Relying entirely on managed AWS services means no OS patching or server maintenance.
+2. **Cost-Efficiency:** You only pay for exact compute milliseconds used (Lambda) and exact storage (DynamoDB/S3).
+3. **High Security:** Frontend spoofing is prevented by calculating Cart Totals and validating Promo Codes exclusively on the backend. Authentication is entirely offloaded to industry-standard Amazon Cognito.
+4. **Actionable Insights:** Live CloudWatch Dashboards monitor system health and trigger SNS alerts immediately upon API degradation.
 
 ---
 
@@ -215,4 +180,4 @@ This project demonstrates practical experience with:
 
 **Prashaant V**
 
-Built as a cloud-native serverless e-commerce platform to demonstrate AWS, Terraform, Serverless Architecture, and Microservices best practices.
+Built as a comprehensive cloud-native e-commerce platform to demonstrate expertise in AWS Serverless Architecture, Infrastructure as Code, Microservices best practices, and modern web development.
