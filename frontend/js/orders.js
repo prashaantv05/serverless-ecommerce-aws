@@ -1,9 +1,9 @@
 async function checkout() {
   const shippingAddress = document.getElementById("shippingInput").value.trim() || "Chennai";
-  const paymentMethod   = document.getElementById("paymentSelect").value;
+  const paymentMethod = document.getElementById("paymentSelect").value;
 
   try {
-    const res  = await fetch(`${BASE_URL}/orders/checkout/${USER_ID}`, {
+    const res = await fetch(`${BASE_URL}/orders/checkout/${USER_ID}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ shippingAddress, paymentMethod })
@@ -31,7 +31,7 @@ async function loadOrders() {
   container.innerHTML = `<div class="empty-state"><div class="empty-icon">⏳</div><p>Loading orders…</p></div>`;
 
   try {
-    const res  = await fetch(`${BASE_URL}/orders/user/${USER_ID}`);
+    const res = await fetch(`${BASE_URL}/orders/user/${USER_ID}`);
     const data = await res.json();
     const orders = data.data || [];
 

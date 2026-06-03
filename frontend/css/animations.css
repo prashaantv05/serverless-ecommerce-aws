@@ -264,3 +264,42 @@ body.intro-done .product-card {
 .page.active {
   animation: pageFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) both !important;
 }
+
+.role-selection{
+  position:fixed;
+  inset:0;
+  background:#050505;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+.role-card-container{
+  display:flex;
+  gap:30px;
+}
+
+.role-card{
+  width:320px;
+  padding:40px;
+  border-radius:24px;
+  cursor:pointer;
+  text-align:center;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  transition:all .3s ease;
+}
+
+.role-card:hover{
+  transform:translateY(-8px);
+}
+
+.role-icon{
+  font-size:52px;
+  margin-bottom:16px;
+}
+
+.hidden-app{
+  display:none;
+}

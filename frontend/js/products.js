@@ -110,7 +110,7 @@ function renderProducts(products) {
 
     // [UPDATED] stock class: "in" for enough stock, "low" for scarce
     const stockClass = p.stock > 5 ? "in" : (p.stock > 0 ? "low" : "low");
-    const stockText  = p.stock > 0 ? `${p.stock} left` : "Out of stock";
+    const stockText = p.stock > 0 ? `${p.stock} left` : "Out of stock";
 
     card.innerHTML = `
       <div class="product-img">${catEmoji(p.category)}</div>
@@ -123,20 +123,36 @@ function renderProducts(products) {
           <div class="product-price">₹${Number(p.price).toLocaleString("en-IN")}</div>
           <div class="product-stock ${stockClass}">${stockText}</div>
         </div>
-        <label class="compare-check">
+        ${window.currentRole === "customer" ? `
+
+<label class="compare-check">
   <input
- type="checkbox"
- ${compareProducts.some(cp => cp.id === p.id) ? "checked" : ""}
- onchange="toggleCompare('${p.id}')"
->
+   type="checkbox"
+   ${compareProducts.some(cp => cp.id === p.id) ? "checked" : ""}
+   onchange="toggleCompare('${p.id}')"
+  >
   Compare Product
 </label>
-        ${p.stock <= 0
+
+${p.stock <= 0
           ? `<button class="add-cart-btn" disabled>Out of Stock</button>`
           : `<div id="cart-control-${p.id}">
-               <button class="add-cart-btn" onclick="addToCart('${p.id}', ${p.stock})">+ Add to Cart</button>
-             </div>`
+      <button class="add-cart-btn"
+      onclick="addToCart('${p.id}', ${p.stock})">
+      + Add to Cart
+      </button>
+    </div>`
         }
+
+` : `
+
+<div class="admin-product-meta">
+  <div class="product-stock ${stockClass}">
+    ${stockText}
+  </div>
+</div>
+
+`}
       </div>`;
     container.appendChild(card);
     if (p.stock > 0) renderCartControls(p.id, p.stock);
@@ -153,7 +169,7 @@ function renderProducts(products) {
 async function loadProducts() {
   const container = document.getElementById("products");
   container.innerHTML = `<div class="skeleton-grid">
-    ${[1,2,3,4,5,6].map(() => `
+    ${[1, 2, 3, 4, 5, 6].map(() => `
       <div class="skeleton-card">
         <div class="sk-img"></div>
         <div class="sk-line w70"></div>
@@ -162,7 +178,7 @@ async function loadProducts() {
   </div>`;
 
   try {
-    const res  = await fetch(`${BASE_URL}/products/`);
+    const res = await fetch(`${BASE_URL}/products/`);
     const data = await res.json();
 
     if (!data.data || data.data.length === 0) {
@@ -184,7 +200,7 @@ async function loadProducts() {
 }
 
 const _origRenderProducts = renderProducts;
-window.renderProducts = function(products) {
+window.renderProducts = function (products) {
   _origRenderProducts(products);
   requestAnimationFrame(() => applyCardStaggerDelays());
 };

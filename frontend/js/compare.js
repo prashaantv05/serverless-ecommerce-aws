@@ -19,9 +19,9 @@ function toggleCompare(productId) {
       toast("Maximum 3 products");
       return;
     }
-    if(product){
-   compareProducts.push(product);
-}
+    if (product) {
+      compareProducts.push(product);
+    }
   }
 
   updateCompareButton();
@@ -52,36 +52,36 @@ function openCompareModal() {
       <tr>
         <th>Field</th>
         ${compareProducts.map(
-          p => `<th>${p.name}</th>`
-        ).join("")}
+    p => `<th>${p.name}</th>`
+  ).join("")}
       </tr>
 
       <tr>
         <td>Category</td>
         ${compareProducts.map(
-          p => `<td>${p.category}</td>`
-        ).join("")}
+    p => `<td>${p.category}</td>`
+  ).join("")}
       </tr>
 
       <tr>
         <td>Price</td>
         ${compareProducts.map(
-          p => `<td>₹${p.price}</td>`
-        ).join("")}
+    p => `<td>₹${p.price}</td>`
+  ).join("")}
       </tr>
 
       <tr>
         <td>Stock</td>
         ${compareProducts.map(
-          p => `<td>${p.stock}</td>`
-        ).join("")}
+    p => `<td>${p.stock}</td>`
+  ).join("")}
       </tr>
 
       <tr>
         <td>Description</td>
         ${compareProducts.map(
-          p => `<td>${p.description || "-"}</td>`
-        ).join("")}
+    p => `<td>${p.description || "-"}</td>`
+  ).join("")}
       </tr>
 
     </table>

@@ -3,15 +3,15 @@ async function addProduct() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      name:        document.getElementById("pname").value,
-      price:       Number(document.getElementById("pprice").value),
+      name: document.getElementById("pname").value,
+      price: Number(document.getElementById("pprice").value),
       description: document.getElementById("pdesc").value,
-      category:    document.getElementById("pcat").value,
-      stock:       Number(document.getElementById("pstock").value)
+      category: document.getElementById("pcat").value,
+      stock: Number(document.getElementById("pstock").value)
     })
   });
   toast("Product added successfully!", "success");
-  ["pname","pprice","pdesc","pcat","pstock"].forEach(id => document.getElementById(id).value = "");
+  ["pname", "pprice", "pdesc", "pcat", "pstock"].forEach(id => document.getElementById(id).value = "");
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -32,10 +32,10 @@ async function updateProduct() {
   if (!id) { toast("Product ID required", "error"); return; }
 
   const updatedData = {
-    name:        document.getElementById("upname").value,
-    price:       Number(document.getElementById("upprice").value),
-    category:    document.getElementById("upcat").value,
-    stock:       Number(document.getElementById("upstock").value),
+    name: document.getElementById("upname").value,
+    price: Number(document.getElementById("upprice").value),
+    category: document.getElementById("upcat").value,
+    stock: Number(document.getElementById("upstock").value),
     description: document.getElementById("updesc").value
   };
 
@@ -49,10 +49,11 @@ async function updateProduct() {
     if (!res.ok) throw new Error(data.error || "Update failed");
 
     toast("Product updated successfully!", "success");
-    ["upid","upname","upprice","upcat","upstock","updesc"]
+    ["upid", "upname", "upprice", "upcat", "upstock", "updesc"]
       .forEach(id => document.getElementById(id).value = "");
     loadProducts();
   } catch (err) {
     toast(err.message, "error");
   }
 }
+

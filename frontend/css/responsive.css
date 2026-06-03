@@ -1,32 +1,97 @@
 @media (max-width: 1100px) {
-  .cart-layout { grid-template-columns: 1fr; }
-  .cart-sidebar { position: static; }
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-sidebar {
+    position: static;
+  }
 }
 
 @media (max-width: 860px) {
-  .nav-inner { gap: 1rem; }
-  .nav-search { max-width: 200px; }
-  .user-info { display: none; }
-  .hero { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-  .hero-stats { gap: 16px; }
-  .admin-grid { grid-template-columns: 1fr; }
+  .nav-inner {
+    gap: 1rem;
+  }
+
+  .nav-search {
+    max-width: 200px;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .hero-stats {
+    gap: 16px;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
-  .nav-inner { padding: 0 1rem; }
-  .nav-search { display: none; }
-  .tab span { display: none; }
-  .tab { padding: 8px 12px; gap: 0; }
-  .page { padding: 1.5rem 1rem 3rem; }
-  .hero-title { font-size: 2.5rem; }
-  .hero-stats { flex-wrap: wrap; gap: 12px; }
-  .stat-divider { display: none; }
-  .checkout-card-inner { flex-direction: column; gap: 1.5rem; }
-  .checkout-fields { flex-direction: column; }
-  .field-row { grid-template-columns: 1fr; }
-  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+  .nav-inner {
+    padding: 0 1rem;
+  }
+
+  .nav-search {
+    display: none;
+  }
+
+  .tab span {
+    display: none;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    gap: 0;
+  }
+
+  .page {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .checkout-card-inner {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .checkout-fields {
+    flex-direction: column;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
+
   #cinematicOverlay,
   .door,
   .door-glow,
@@ -40,5 +105,8 @@
     opacity: 1 !important;
     transform: none !important;
   }
-  #cinematicOverlay { display: none; }
+
+  #cinematicOverlay {
+    display: none;
+  }
 }

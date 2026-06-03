@@ -1,3 +1,4 @@
+window.currentRole = null;
 function initParticles() {
   const canvas = document.getElementById("particleCanvas");
   if (!canvas) return;
@@ -176,3 +177,38 @@ window.switchTab = function(name) {
     requestAnimationFrame(() => applyCardStaggerDelays());
   }, 150);
 };
+
+function selectRole(role) {
+
+  document.getElementById("roleSelection").style.display = "none";
+
+  document
+    .querySelectorAll(".hidden-app")
+    .forEach(el => el.classList.remove("hidden-app"));
+  
+  if (role === "customer") {
+    window.currentRole = "customer";
+    document.getElementById("adminTab").style.display = "none";
+
+    loadProducts();
+    updateBadge();
+
+    switchTab("products");
+}
+
+  if (role === "admin") {
+  window.currentRole = "admin";
+  document.getElementById("shopTab").style.display = "none";
+  document.getElementById("cartTab").style.display = "none";
+  document.getElementById("ordersTab").style.display = "none";
+
+  document.getElementById("adminProductsTab").style.display = "flex";
+
+  document.querySelector(".nav-user").style.display = "none";
+
+  loadProducts();
+  updateBadge();
+
+  switchTab("admin");
+  }
+}

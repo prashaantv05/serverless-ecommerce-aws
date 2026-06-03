@@ -3,6 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   initScrollNavbar();
   initPaginationAnimations();
-  loadProducts();
-  updateBadge();
+  //loadProducts();
+  //updateBadge();
 });
