@@ -25,19 +25,33 @@ async function deleteProduct() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// [UNCHANGED] Admin: updateProduct
+// [UPDATED] Admin: updateProduct (Partial Updates)
 // ─────────────────────────────────────────────────────────────
 async function updateProduct() {
   const id = document.getElementById("upid").value;
   if (!id) { toast("Product ID required", "error"); return; }
 
-  const updatedData = {
-    name: document.getElementById("upname").value,
-    price: Number(document.getElementById("upprice").value),
-    category: document.getElementById("upcat").value,
-    stock: Number(document.getElementById("upstock").value),
-    description: document.getElementById("updesc").value
-  };
+  const updatedData = {};
+
+  const name = document.getElementById("upname").value.trim();
+  if (name) updatedData.name = name;
+
+  const price = document.getElementById("upprice").value;
+  if (price) updatedData.price = Number(price);
+
+  const category = document.getElementById("upcat").value.trim();
+  if (category) updatedData.category = category;
+
+  const stock = document.getElementById("upstock").value;
+  if (stock !== "") updatedData.stock = Number(stock);
+
+  const desc = document.getElementById("updesc").value.trim();
+  if (desc) updatedData.description = desc;
+
+  if (Object.keys(updatedData).length === 0) {
+    toast("Please enter at least one field to update", "warning");
+    return;
+  }
 
   try {
     const res = await fetch(`${BASE_URL}/products/${id}`, {
