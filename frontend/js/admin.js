@@ -72,12 +72,31 @@ async function loadAdminDashboard() {
     const oRes = await fetch(`${BASE_URL}/orders/`);
     const oJson = await oRes.json();
     let totalRevenue = 0;
+    let todayRevenue = 0;
+    
+    // Get today's date prefix (YYYY-MM-DD) in local time
+    const today = new Date();
+    // Use the exact date component in UTC format to match ISO strings from dynamo
+    const todayStr = today.toISOString().split("T")[0];
+
     if (oJson.data) {
-       oJson.data.forEach(o => totalRevenue += Number(o.total || 0));
+       oJson.data.forEach(o => {
+         const amt = Number(o.total || 0);
+         totalRevenue += amt;
+         
+         // If createdAt exists and starts with today's date
+         if (o.createdAt && o.createdAt.startsWith(todayStr)) {
+           todayRevenue += amt;
+         }
+       });
     }
 
     const tEl = document.getElementById("adminTotalProducts");
     if (tEl) tEl.textContent = productCount;
+    
+    const trEl = document.getElementById("adminTodayRevenue");
+    if (trEl) trEl.textContent = "₹" + todayRevenue.toLocaleString("en-IN");
+
     const rEl = document.getElementById("adminTotalRevenue");
     if (rEl) rEl.textContent = "₹" + totalRevenue.toLocaleString("en-IN");
 
