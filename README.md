@@ -10,7 +10,7 @@ This project demonstrates advanced cloud engineering practices, including server
 
 | Service     | URL                                                         |
 | ----------- | ----------------------------------------------------------- |
-| Frontend    | https://dx4o02gcthxe4.cloudfront.net                        |
+| Frontend    | https://d23obfzaf8o96l.cloudfront.net                       |
 | API Gateway | https://n8jfqgmey7.execute-api.ap-southeast-1.amazonaws.com |
 
 The frontend is hosted on **Amazon S3** and delivered globally through **Amazon CloudFront**. Backend APIs are exposed through **Amazon API Gateway** and powered by scalable **AWS Lambda** microservices.
